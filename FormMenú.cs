@@ -70,5 +70,10 @@ namespace Trabajo_SQL_C_
                 Application.Exit();
             }
         }
+
+        private void label7_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
