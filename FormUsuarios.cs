@@ -56,15 +56,28 @@ namespace Trabajo_SQL_C_
 
         private void button1_Click(object sender, EventArgs e)
         {
-           
+            string sql = "INSERT INTO USUARIO (Rut, Nombre, Apellido, Correo, Ciudad) VALUES (@Rut, @Nombre, @Apellido, @Correo, @Ciudad)";
+            using (SqlConnection cnn = new SqlConnection(connectionString))
+            {
+                cnn.Open();
+                using (SqlCommand cmd = new SqlCommand(sql, cnn))
+                {
+                    cmd.Parameters.AddWithValue("@Rut", textBox1.Text.Trim());
+                    cmd.Parameters.AddWithValue("@Nombre", textBox2.Text.Trim());
+                    cmd.Parameters.AddWithValue("@Apellido", textBox3.Text.Trim());
+                    cmd.Parameters.AddWithValue("@Correo", textBox4.Text.Trim());
+                    cmd.Parameters.AddWithValue("@Ciudad", textBox5.Text.Trim());
+                    cmd.ExecuteNonQuery();
+                }
+
+            }
+            actualizar();
+
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(textBox1.Text)) { MessageBox.Show("Ingrese Rut para eliminar."); return; }
-
-            string sql = "DELETE FROM USUARIO WHERE Rut = @Rut";
-
+            string sql = "DELETE FROM USUARIO WHERE RUT = " + dataGridView1.CurrentRow.Cells[0].Value;
             using (SqlConnection cnn = new SqlConnection(connectionString))
             {
                 try
@@ -72,18 +85,17 @@ namespace Trabajo_SQL_C_
                     cnn.Open();
                     using (SqlCommand cmd = new SqlCommand(sql, cnn))
                     {
-                        cmd.Parameters.AddWithValue("@Rut", textBox1.Text.Trim());
-
-                        int affected = cmd.ExecuteNonQuery();
-                        MessageBox.Show(affected > 0 ? "Usuario eliminado correctamente." : "No se encontró el usuario.");
+                        cmd.ExecuteNonQuery();
                     }
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message);
                 }
+
             }
             actualizar();
+
         }
 
         private void FormClientes_Load(object sender, EventArgs e)
@@ -93,10 +105,7 @@ namespace Trabajo_SQL_C_
 
         private void button3_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(textBox1.Text)) { MessageBox.Show("Rut obligatorio para actualizar."); return; }
-
-            string sql = "UPDATE USUARIO SET Nombre = @Nombre, Apellido = @Apellido, Correo = @Correo, Ciudad = @Ciudad WHERE Rut = @Rut";
-
+            string sql = "UPDATE USUARIO SET CIUDAD = @Ciudad, CORREO = @Correo, APELLIDO = @Apellido, NOMBRE = @Nombre WHERE RUT = @Rut";
             using (SqlConnection cnn = new SqlConnection(connectionString))
             {
                 try
@@ -104,14 +113,12 @@ namespace Trabajo_SQL_C_
                     cnn.Open();
                     using (SqlCommand cmd = new SqlCommand(sql, cnn))
                     {
-                        cmd.Parameters.AddWithValue("@Nombre", textBox2.Text.Trim());
-                        cmd.Parameters.AddWithValue("@Apellido", textBox3.Text.Trim());
-                        cmd.Parameters.AddWithValue("@Correo", textBox4.Text.Trim());
                         cmd.Parameters.AddWithValue("@Ciudad", textBox5.Text.Trim());
-                        cmd.Parameters.AddWithValue("@Rut", textBox1.Text.Trim());
-
-                        int affected = cmd.ExecuteNonQuery();
-                        MessageBox.Show(affected > 0 ? "Usuario actualizado correctamente." : "No se encontró el usuario para actualizar.");
+                        cmd.Parameters.AddWithValue("@Correo", textBox4.Text.Trim());
+                        cmd.Parameters.AddWithValue("@Apellido", textBox3.Text.Trim());
+                        cmd.Parameters.AddWithValue("@Nombre", textBox2.Text.Trim());
+                        cmd.Parameters.AddWithValue("@Rut", dataGridView1.CurrentRow.Cells[0].Value.ToString());
+                        cmd.ExecuteNonQuery();
                     }
                 }
                 catch (Exception ex)
@@ -119,6 +126,7 @@ namespace Trabajo_SQL_C_
                     MessageBox.Show(ex.Message);
                 }
             }
+            
             actualizar();
         }
 
