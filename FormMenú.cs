@@ -47,8 +47,17 @@ namespace Trabajo_SQL_C_
             f.ShowDialog();
         }
 
+        private void button3_Click(object sender, EventArgs e)
+        {
+            FormVentas f = new FormVentas();
+            f.ShowDialog();
+        }
 
-
+        private void button4_Click(object sender, EventArgs e)
+        {
+            Form1 f = new Form1();
+            f.ShowDialog();
+        }
 
 
 
@@ -75,5 +84,7 @@ namespace Trabajo_SQL_C_
         {
 
         }
+
+        
     }
 }
