@@ -34,7 +34,7 @@ namespace Trabajo_SQL_C_
         {
             string sql = @"
                 SELECT
-                    v.ID_Venta,
+                    v.ID_Venta AS [Código de venta],
                     u.Nombre AS [Cliente],
                     a.Marca AS [Auto],
                     v.Fecha_De_Compra AS [Fecha de venta],
